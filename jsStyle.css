@@ -1,0 +1,18 @@
+.container{
+    width:1100px;
+    height: 900px;
+    background-color: yellow;
+    margin-left:300px;
+}
+
+#firstCube{
+    width: 100px;
+    height: 100px;
+    background-color: red;
+}
+.secondCube{
+    width: 100px;
+    height: 100px;
+    background-color: green;
+    
+}
