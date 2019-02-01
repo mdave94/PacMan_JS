@@ -25,6 +25,7 @@ var enemy = {
     , ghosteat: false
 };
 
+
 var enemy2 = {
     x: 150
     , y: 200
@@ -42,6 +43,9 @@ var powerdot = {
     , pcountdown: 0
     , ghostNum: 0
     , ghostNum2: 0
+};
+var PAUSE = {
+    isPause : false
 };
 //setup canvas
 var canvas = document.createElement("canvas");
@@ -62,7 +66,9 @@ mainImage.src = "pac.png";
 var keyclick = {};
 document.addEventListener("keydown", function (event) {
     keyclick[event.keyCode] = true;
-   move(keyclick);
+
+
+ move(keyclick);
    // move(keyclick);
 }, false);
 document.addEventListener("keyup", function (event) {
@@ -70,10 +76,25 @@ document.addEventListener("keyup", function (event) {
 }, false);
 
 
+
 // key functions
 function move(keyclick) {
 
     //check click key value
+    if (32 in keyclick) {
+        console.log("PAUSE key");   
+        if(PAUSE.isPause == true){
+           
+            alert("Continue?");
+            PAUSE.isPause= false;
+        }else{
+            PAUSE.isPause = true;
+           
+            render();
+        }
+    }
+
+
     if (37 in keyclick) {
         player.x -= player.speed;
         player.pacdir = 64;
@@ -110,7 +131,7 @@ function move(keyclick) {
     else {
         player.pacmouth = 320;
     }
-    
+  
     render();
 }
 // function once ready
@@ -120,12 +141,8 @@ function checkReady() {
 }
 // game-play loop
 function playgame() {
-    var pause=false;
-
-
-    
-    render();
-    requestAnimationFrame(playgame);
+        render();
+        requestAnimationFrame(playgame);
 }
 // random number function
 function myNum(n) {
