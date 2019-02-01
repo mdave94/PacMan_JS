@@ -62,11 +62,7 @@ mainImage.src = "pac.png";
 var keyclick = {};
 document.addEventListener("keydown", function (event) {
     keyclick[event.keyCode] = true;
-
-
-    if(event.keyCode==32){
-        console.log("PAUSE");   
-    }else{move(keyclick);}
+   move(keyclick);
    // move(keyclick);
 }, false);
 document.addEventListener("keyup", function (event) {
@@ -114,7 +110,7 @@ function move(keyclick) {
     else {
         player.pacmouth = 320;
     }
-  
+    
     render();
 }
 // function once ready
