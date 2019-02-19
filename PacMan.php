@@ -6,7 +6,8 @@
 </head>
 <style>
     canvas {
-        border: solid 1px #000;
+        
+        padding-left:100px;
     }
 </style>
 

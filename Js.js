@@ -51,8 +51,8 @@ var PAUSE = {
 var canvas = document.createElement("canvas");
 var context = canvas.getContext("2d");
 document.body.appendChild(canvas);
-canvas.width = 600;
-canvas.height = 400;
+canvas.width = 1000;
+canvas.height = 600;
 //import image
 var mainImage;
 mainImage = new Image();
@@ -60,40 +60,33 @@ mainImage.ready = false;
 mainImage.onload = checkReady;
 var tempFile;
 mainImage.src = "pac.png";
-
+var wall={
+    height:32,
+    width:32
+}
 
 //add key listener
 var keyclick = {};
 document.addEventListener("keydown", function (event) {
     keyclick[event.keyCode] = true;
-
-
- move(keyclick);
-   // move(keyclick);
+ 
+    move(keyclick);
 }, false);
 document.addEventListener("keyup", function (event) {
     delete keyclick[event.keyCode];
 }, false);
 
 
-
+var pause=false;
 // key functions
 function move(keyclick) {
 
     //check click key value
-    if (32 in keyclick) {
-        console.log("PAUSE key");   
-        if(PAUSE.isPause == true){
-           
-            alert("Continue?");
-            PAUSE.isPause= false;
-        }else{
-            PAUSE.isPause = true;
-           
-            render();
-        }
+    if (32 in keyclick) {      
+        delete keyclick[event.keyCode];        
+        alert("Continue? ");
     }
-
+    
 
     if (37 in keyclick) {
         player.x -= player.speed;
@@ -102,12 +95,15 @@ function move(keyclick) {
     if (38 in keyclick) {
         player.y -= player.speed;
         player.pacdir = 96;
+        
     }
     if (39 in keyclick) {
+  
         player.x += player.speed;
         player.pacdir = 0;
     }
     if (40 in keyclick) {
+  
         player.y += player.speed;
         player.pacdir = 32;
     }
@@ -137,18 +133,26 @@ function move(keyclick) {
 // function once ready
 function checkReady() {
     this.ready = true;
+    
     playgame();
+    
 }
+
+
 // game-play loop
 function playgame() {
+   
         render();
         requestAnimationFrame(playgame);
+        drawMap();
 }
+
 // random number function
 function myNum(n) {
     return Math.floor(Math.random() * n);
 }
 // draw on canvas
+
 function render() {
     
     context.fillStyle = "black";
@@ -159,6 +163,9 @@ function render() {
         powerdot.y = myNum(250) + 30;
         powerdot.powerup = true;
     }
+
+
+    
     // check if ghost is on screen
     if (!ghost) {
         enemy.ghostNum = myNum(5) * 64;
@@ -333,11 +340,26 @@ function render() {
         }
     }
     // write score
-    context.font = "20px Verdana";
-    context.fillStyle = "white";
+   
     context.fillText("Pacman: " + score + " vs Ghost:" + gscore, 2, 18);
     // draw characters
+    context.font = "20px Verdana";
+    context.fillStyle = "white";
     context.drawImage(mainImage, enemy2.ghostNum, enemy2.flash, 32, 32, enemy2.x, enemy2.y, 32, 32);
     context.drawImage(mainImage, enemy.ghostNum, enemy.flash, 32, 32, enemy.x, enemy.y, 32, 32);
     context.drawImage(mainImage, player.pacmouth, player.pacdir, 32, 32, player.x, player.y, 32, 32);
+   
 }
+function drawMap(){
+    var Y_where=20;
+    var X_where=0;
+  
+    
+    for(var i=0;i<100;i++){
+        X_where+=32;
+     
+        context.drawImage(mainImage,416,96,wall.height,wall.width,X_where,Y_where,32,32);   
+    }
+     
+     
+  }
