@@ -12,6 +12,7 @@ var player = {
     , pacdir: 0
     , psize: 32
     , speed: 5
+    , hit_wall:false
 };
 
 var enemy = {
@@ -23,6 +24,7 @@ var enemy = {
     , diry: 0
     , flash: 0
     , ghosteat: false
+    ,wall_hit:false
 };
 
 
@@ -35,6 +37,7 @@ var enemy2 = {
     , diry: 0
     , flash: 0
     , ghosteat: false
+    ,wall_hit:false
 };
 var powerdot = {
     x: 10
@@ -83,8 +86,9 @@ function move(keyclick) {
 
     //check click key value
     if (32 in keyclick) {      
-        delete keyclick[event.keyCode];        
+          
         alert("Continue? ");
+        delete keyclick[event.keyCode];   
     }
     
 
@@ -141,18 +145,19 @@ function checkReady() {
 
 // game-play loop
 function playgame() {
-   
-        render();
-        requestAnimationFrame(playgame);
-        drawMap();
-}
 
+        render();
+        drawMap();
+        requestAnimationFrame(playgame);
+
+       
+        
+}
 // random number function
 function myNum(n) {
     return Math.floor(Math.random() * n);
 }
 // draw on canvas
-
 function render() {
     
     context.fillStyle = "black";
@@ -181,7 +186,9 @@ function render() {
         ghost2 = true;
     }
     // move enemy
-    if (enemy.moving < 0) {
+    if (enemy.moving < 0 ) {
+        enemy.wall_hit=false;
+     
         enemy.moving = (myNum(20) * 3) + myNum(1);
         enemy.speed = myNum(2) + 1;
         enemy.dirx = 0;
@@ -222,7 +229,7 @@ function render() {
     if (enemy.y < 0) {
         enemy.y = (canvas.height - 32);
     }
-    if (enemy2.moving < 0) {
+    if (enemy2.moving < 0 ) {
         enemy2.moving = (myNum(20) * 3) + myNum(1);
         enemy2.speed = myNum(2) + 1;
         enemy2.dirx = 0;
@@ -263,6 +270,46 @@ function render() {
     if (enemy2.y < 0) {
         enemy2.y = (canvas.height - 32);
     }
+    
+    
+/*
+    if (player.x <= (wall.width+ 26) && wall.width <= (player.x + 26)){
+        console.log("X");
+        player.hit_wall=true;
+        
+    }
+    
+    if (player.y <= (wall.height + 26) && wall.height <= (player.y + 26)){
+        player.hit_wall=true;
+        console.log("Y");
+    }
+
+    if(player.hit_wall===true){
+        player.hit_wall=false;
+ 
+    }
+
+
+    if(player.hit_wall===true){
+        
+    }*/
+
+//Wall detection by Ghost
+if(enemy.x <= (wall.width+26) && wall.width <= (enemy.x + 26)            ){
+    enemy.dirx=enemy.dirx*-1;
+   
+}
+if(enemy.y <= (wall.height+26) && wall.height <= (enemy.y + 26)            ){
+    enemy.diry=enemy.diry*-1;
+}
+if(enemy2.x <= (wall.width+26) && wall.width <= (enemy2.x + 26)            ){
+    enemy2.dirx=enemy2.dirx*-1;
+   
+}
+if(enemy2.y <= (wall.height+26) && wall.height <= (enemy2.y + 26)            ){
+    enemy2.diry=enemy2.diry*-1;
+}
+
     //Collision detection ghost
     if (player.x <= (enemy.x + 26) && enemy.x <= (player.x + 26) && player.y <= (enemy.y + 26) && enemy.y <= (player.y + 32)) {
         console.log('ghost');
@@ -353,11 +400,10 @@ function render() {
 function drawMap(){
     var Y_where=20;
     var X_where=0;
-  
+ 
     
-    for(var i=0;i<100;i++){
-        X_where+=32;
-     
+    for(var i=0;i<500;i=i+32){
+        X_where+=32;     
         context.drawImage(mainImage,416,96,wall.height,wall.width,X_where,Y_where,32,32);   
     }
      
