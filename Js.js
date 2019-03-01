@@ -1,4 +1,3 @@
-
 var score = 0
     , gscore = 0
     , countblink = 10
@@ -24,7 +23,7 @@ var enemy = {
     , diry: 0
     , flash: 0
     , ghosteat: false
-    ,wall_hit:false
+    
 };
 
 
@@ -37,7 +36,7 @@ var enemy2 = {
     , diry: 0
     , flash: 0
     , ghosteat: false
-    ,wall_hit:false
+    
 };
 var powerdot = {
     x: 10
@@ -294,21 +293,33 @@ function render() {
         
     }*/
 
+function isWall(wallP,PlayP){
+    if(PlayP <= (wallP+26) && wallP <= (PlayP+ 26))  {
+        return true;
+    }
+}
+
+
+
 //Wall detection by Ghost
-if(enemy.x <= (wall.width+26) && wall.width <= (enemy.x + 26)            ){
+if(isWall(enemy.x,wall.width)==true){
     enemy.dirx=enemy.dirx*-1;
-   
+    console.log("enemy X ");
 }
-if(enemy.y <= (wall.height+26) && wall.height <= (enemy.y + 26)            ){
+if(isWall(enemy.y ,wall.height)==true){
     enemy.diry=enemy.diry*-1;
+    console.log("enemy X ");
 }
-if(enemy2.x <= (wall.width+26) && wall.width <= (enemy2.x + 26)            ){
+
+if(isWall(enemy2.y ,wall.height)==true){
+    enemy2.diry=enemy.diry*-1;
+    console.log("enemy X ");
+}
+if(isWall(enemy2.x ,wall.width)==true){
     enemy2.dirx=enemy2.dirx*-1;
-   
+    console.log("enemy X ");
 }
-if(enemy2.y <= (wall.height+26) && wall.height <= (enemy2.y + 26)            ){
-    enemy2.diry=enemy2.diry*-1;
-}
+
 
     //Collision detection ghost
     if (player.x <= (enemy.x + 26) && enemy.x <= (player.x + 26) && player.y <= (enemy.y + 26) && enemy.y <= (player.y + 32)) {
@@ -401,11 +412,56 @@ function drawMap(){
     var Y_where=20;
     var X_where=0;
  
-    
+    // Horizontal TOP wall
+   for(var i=0;i<350;i=i+32){
+             
+        context.drawImage(mainImage,416,96,wall.height,wall.width,X_where,Y_where,32,32);   
+        X_where+=32;
+    }
+    X_where=600;
     for(var i=0;i<500;i=i+32){
         X_where+=32;     
         context.drawImage(mainImage,416,96,wall.height,wall.width,X_where,Y_where,32,32);   
     }
-     
-     
+
+    X_where=0;
+    // Right side
+    for(var i=0;i<200;i=i+32){
+        Y_where+=32;     
+        context.drawImage(mainImage,416,96,wall.height,wall.width,X_where,Y_where,32,32);   
+    }
+    Y_where=350;
+    for(var i=0;i<250;i=i+32){
+        Y_where+=32;     
+        context.drawImage(mainImage,416,96,wall.height,wall.width,X_where,Y_where,32,32);   
+    }
+
+    X_where=970;
+    //Left side
+    Y_where=0;
+    for(var i=0;i<250;i=i+32){
+        Y_where+=32;     
+        context.drawImage(mainImage,416,96,wall.height,wall.width,X_where,Y_where,32,32);   
+    }
+
+    Y_where=350;
+    for(var i=0;i<250;i=i+32){
+        Y_where+=32;     
+        context.drawImage(mainImage,416,96,wall.height,wall.width,X_where,Y_where,32,32);   
+    }
+    //Bottom
+
+    X_where=0;
+    Y_where=570;
+    for(var i=0;i<350;i=i+32){
+             
+        context.drawImage(mainImage,416,96,wall.height,wall.width,X_where,Y_where,32,32);   
+        X_where+=32;
+    }
+    X_where=600;
+    for(var i=0;i<500;i=i+32){
+        X_where+=32;     
+        context.drawImage(mainImage,416,96,wall.height,wall.width,X_where,Y_where,32,32);   
+    }
+
   }
